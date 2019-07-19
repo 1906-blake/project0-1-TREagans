@@ -22,12 +22,16 @@ const findAll = async (req, res) => {
 };
 
 
+/**
+ * because `req.params.id` returns a string value, we must convert
+ * it to an integer first (parseInt())
+ */
 const findById = async (req, res) => {
     let client: PoolClient;
     try {
         client = await dbConnection.connect();
-        const queryString = await client.query('SELECT * FROM user WHERE userId = $1', [+req.params.id]);
-        return res.json(queryString.rows.map(convertSqlUser));
+        const queryString = await client.query('SELECT * FROM usertable WHERE user_id = $1', [+req.params.id]);
+        return res.json(queryString.rows.map(convertSqlUser)[0]);
     } catch (err) {
         console.log(err);
     } finally {
