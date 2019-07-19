@@ -3,13 +3,12 @@ import Role from "./Role";
 export default class User {
 
     constructor(
-    userId: number,     // primary key
-    username: string,   // not null, unique
-    password: string,   // not null
-    firstName: string,  // not null
-    lastName: string,   // not null
-    email: string,      // not null
-    role: Role          // not null
+    public userId: number,     // primary key
+    public username: string,   // not null, unique
+    public password: string,   // not null
+    public firstName: string,  // not null
+    public lastName: string,   // not null
+    public email: string,      // not null
+    public role: Role          // not null
     ){}
-
-}
+};

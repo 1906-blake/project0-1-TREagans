@@ -1,21 +1,13 @@
 import express from 'express';
 import { userRouter } from './routes/user.routes';
 import { reimbursementRouter } from './routes/reimbursement.routes';
+import bodyParser from 'body-parser';
+
 
 const port = 8012;
 const app = express();
 
-/**
- * /login
- */
-app.post('/login', (req, res) => {
-    if (true) {
-        res.send('Login Successful!');
-    } else {
-        res.status(400);
-        res.send('message: "Invalid Credentials"');
-    }
-});
+app.use(bodyParser.json());
 
 
 /*************
