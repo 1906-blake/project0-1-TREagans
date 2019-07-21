@@ -1,8 +1,7 @@
-import User from '../models/User';
+
 import { PoolClient } from 'pg';
 import { dbConnection } from '../util/dbconnect';
 import { convertSqlUser } from '../util/user.convert';
-
 
 
 const findAll = async (req, res) => {
@@ -12,6 +11,7 @@ const findAll = async (req, res) => {
         client = await dbConnection.connect();
         const queryString = await client.query('SELECT * FROM usertable');
         return res.json(queryString.rows.map(convertSqlUser));
+        
     } catch (error) {
         console.log(error);
     } finally {
@@ -28,10 +28,39 @@ const findAll = async (req, res) => {
  */
 const findById = async (req, res) => {
     let client: PoolClient;
+    const id = req.params.id;
+
+        try {
+            client = await dbConnection.connect();
+            const query = await client.query('SELECT * FROM usertable WHERE user_id = $1', [+id]);
+
+            if (!query.rows[0]) {
+                res.status(400).send(`Sorry, user doesn't exist!`);
+            } else {
+            return res.json(query.rows.map(convertSqlUser)[0]);
+            }
+
+        } catch (err) {
+            console.log(err);
+        } finally {
+            client && client.release();
+        }
+    };
+
+
+const createUser = async (req, res) => {
+    const { username, password, firstName, lastName, email, role } = req.body;
+    let client: PoolClient;
+    
     try {
-        client = await dbConnection.connect();
-        const queryString = await client.query('SELECT * FROM usertable WHERE user_id = $1', [+req.params.id]);
-        return res.json(queryString.rows.map(convertSqlUser)[0]);
+        client = await dbConnection.connect(); 
+        const queryString = `
+            INSERT INTO usertable (username, password, first_name, last_name, email, role_id)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING user_id`;
+        const params = [username, password, firstName, lastName, email, role];
+        const results = await client.query(queryString, params);
+        return res.status(200).json(`User: ${results.rows[0].user_id} - '${username}' created successfully!`);
     } catch (err) {
         console.log(err);
     } finally {
@@ -40,86 +69,76 @@ const findById = async (req, res) => {
 };
 
 
-const userLogin = async (req, res) => {
+
+const loginUser = async (req, res) => {
     const { username, password } = req.body;
     let client: PoolClient;
 
     try {
         client = await dbConnection.connect();
-        // const queryString = await client.query('SELECT * FROM users');
-        // const results = queryString.rows
-        // const user = userLogin(username, password);
-        if (username === req.body.username && password === req.body.password) {
-            res.status(200);
-            return res.send("Login Successful!");
+        const queryString = `SELECT * FROM usertable WHERE username = $1 AND password = $2`;
+        const results = await client.query(queryString, [username, password]);
+        convertSqlUser(results);
+
+        if (results.rows[0]) {
+            req.session.user = convertSqlUser(results.rows[0]);
+            res.status(200).send(`You are logged in as: ${results.rows[0].username}`);
         } else {
-            // req.session.destroy(() => { });
-            res.status(400);
-            return res.send('Invalid Credentials');
+            req.session.destroy;
+            res.status(400).send('Invalid Credentials!');
         }
+
     } catch (err) {
         console.log(err);
     } finally {
         client && client.release();
     }
-}
-
-
-const createUser = async (user: User) => {
-    let client: PoolClient;
-    try {
-        client = await dbConnection.connect(); // basically .then is everything after this
-        const queryString = `
-            INSERT INTO usertable (username, password, first_name, last_name, email, role)
-            VALUES 	($1, $2, $3, $4, $5, $6)
-            RETURNING user_id;
-        `;
-        const params = [user.username, user.password, user.firstName, user.lastName, user.email, user.role];
-        const result = await client.query(queryString, params);
-        return result.rows[0].user_id;
-    } catch (err) {
-        console.log(err);
-    } finally {
-        client && client.release();
-    }
-    console.log('found all');
-    return undefined;
-}
-
-
-const updateUser = async (user: Partial<User>) => {
-    // grab the old user info
-    const oldUser = await findById(user.username, user.userId);
-    if (!oldUser) {
-        return undefined;
-    }
-    user = {
-        ...oldUser,
-        ...user
-    }
-    
-    let client: PoolClient;
-    try {
-        client = await dbConnection.connect(); // basically .then is everything after this
-        const queryString = `
-            UPDATE user SET username = $1, password = $2, first_name = $3, last_name = $4, email = $6, role = $7
-            WHERE user_id = $8
-            RETURNING *
-        `;
-        const params = [user.username, user.password, user.firstName, user.lastName, user.email, user.role, user.userId];
-        const result = await client.query(queryString, params);
-        const sqlUser = result.rows[0];
-        return convertSqlUser(sqlUser);
-    } catch (err) {
-        console.log(err);
-    } finally {
-        client && client.release();
-    }
-    console.log('found all');
-    return undefined;
 };
 
 
-export { findAll, findById, userLogin, updateUser, createUser };
+const updateUser = async (req, res) => {
+    const id = req.params.id;
+    const { password, firstName, lastName, email, role } = req.body;
+
+    let client: PoolClient;
+
+    try {
+        client = await dbConnection.connect();
+        client.query(`UPDATE usertable 
+            SET password = $1, first_name = $2, last_name = $3, email = $4, role_id = $5 
+            WHERE user_id = $6`,
+        [password, firstName, lastName, email, role, id]);
+
+        return res.status(200).send(`User Id: '${id}' updated successfully!`)
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client && client.release();
+    }
+};
+
+
+const deleteUser = async (req, res) => {
+    const id = req.params.id;
+    let client: PoolClient;
+
+    try {
+        
+        client = await dbConnection.connect();
+        await client.query(`DELETE FROM usertable WHERE user_id = $1`, [+id]);
+
+        return res.send(`User Id: ${id} deleted successfully!`);
+
+    } catch (err) {
+
+        console.log(err);
+    } finally {
+
+        client && client.release();
+    }
+};
+
+
+export { findAll, findById, loginUser, updateUser, createUser, deleteUser };
 
 

@@ -1,5 +1,6 @@
 import express from 'express';
 import * as userController from '../controllers/user.controller';
+import { authMiddleware } from '../middleware/auth.middleware';
 
 
 export const userRouter = express.Router();
@@ -7,24 +8,29 @@ export const userRouter = express.Router();
 /**
  * [GET]    /users
  */
-userRouter.get('/', userController.findAll);
+userRouter.get('/', authMiddleware, userController.findAll);
 
 
 /**
  * passing an argument to findById
  * /users/:id/
  */
-userRouter.get('/:id', userController.findById);
+userRouter.get('/:id', authMiddleware, userController.findById);
 
 
 /**
- * [POST]   /login
+ * [POST]   users/login
  */
-userRouter.post('/login', userController.userLogin);
-userRouter.post('/create', userController.createUser);
+userRouter.post('/login', userController.loginUser);
+userRouter.post('/', authMiddleware, userController.createUser);
 
 
 /**
  * [PATCH]  /users
  */
-userRouter.patch('/', userController.updateUser);
+userRouter.patch('/:id', authMiddleware, userController.updateUser);
+
+/**
+ * [DELETE]     /users/:id
+ */
+userRouter.delete('/:id', authMiddleware, userController.deleteUser);

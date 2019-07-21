@@ -7,8 +7,8 @@ export default class Reimbursement {
         dateSubmitted: number,      // not null
         dateResolved: number,       
         description: string,        // not null
-        resolver: number,           // foreign key -> User
-        status: number,             // foreign key -> ReimbursementStatus, not null
-        type: number                // foreign key -> ReimbursementType
+        resolver: string,           // foreign key -> User
+        status: string,             // foreign key -> ReimbursementStatus, not null
+        type: string                // foreign key -> ReimbursementType
     ){}
 }

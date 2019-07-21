@@ -1,5 +1,5 @@
 import User from '../models/User';
 
 export function convertSqlUser(row: any) {
-    return new User(row.user_id, row.username, '', row.email, row.firstName, row.lastName, row.role);
+    return new User(row.user_id, row.username, '', row.first_name, row.last_name, row.email, row.role_id);
 }

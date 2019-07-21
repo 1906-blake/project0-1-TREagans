@@ -1,36 +1,29 @@
 import express from 'express';
+import * as reimbursementController from '../controllers/reimbursement.controller';
+// import { authMiddleware } from '../middleware/auth.middleware';
 
 export const reimbursementRouter = express.Router();
 
 
 /**
- * /reimbursements/status/:statusId
+ * [GET]    /reimbursements/status/:statusId
  */
-reimbursementRouter.get('/status/:statusId', (req, res) => {
-    res.send(`Status ID for reimbursement claim: ${req.params.statusId}`);
-});
+reimbursementRouter.get('/status/:id', reimbursementController.getStatus);
 
 
 /**
  * /reimbursements/author/:userId
  */
-reimbursementRouter.get('/author/:userId', (req, res) => {
-    res.send(`Authorization approved by: ${req.params.userId}`);
-});
+reimbursementRouter.get('/author/:id', reimbursementController.getAuthor);
 
 
 /**
  * [POST]   /reimbursements
  */
-reimbursementRouter.post('/', (req, res) => {
-    res.status(201);
-    res.send('return reimbursements array');
-});
+reimbursementRouter.post('/', reimbursementController.createReimbursement);
 
 
 /**
  * [PATCH]  /reimbursements
  */
-reimbursementRouter.patch('/', (req, res) => {
-    res.send('reimbursement form updated');
-});
+reimbursementRouter.patch('/', reimbursementController.updateReimbursement);
