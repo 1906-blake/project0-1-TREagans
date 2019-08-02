@@ -48,6 +48,29 @@ const findById = async (req, res) => {
     };
 
 
+/**
+* because `req.params.id` returns a string value, we must convert
+* it to an integer first (parseInt())
+*/
+const findByRole = async (req, res) => {
+
+    let client: PoolClient;
+    const role = req.params.id;
+
+    try {
+
+        client = await dbConnection.connect();
+        const queryString = await client.query(`SELECT * FROM usertable WHERE role_id = $1`, [+role]);;
+
+        return res.json(queryString.rows.map(convertSqlUser));
+        
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client && client.release();
+    }
+}
+
 const createUser = async (req, res) => {
     const { username, password, firstName, lastName, email, role } = req.body;
     let client: PoolClient;
@@ -81,8 +104,9 @@ const loginUser = async (req, res) => {
         convertSqlUser(results);
 
         if (results.rows[0]) {
+            console.log(results.rows[0]);
             req.session.user = convertSqlUser(results.rows[0]);
-            res.status(200).send(`You are logged in as: ${results.rows[0].username}`);
+            res.json(req.session.user);
         } else {
             req.session.destroy;
             res.status(400).send('Invalid Credentials!');
@@ -97,17 +121,25 @@ const loginUser = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
+
     const id = req.params.id;
-    const { password, firstName, lastName, email, role } = req.body;
+    const { password, firstName, lastName, email, role, username } = req.body;
 
     let client: PoolClient;
 
     try {
         client = await dbConnection.connect();
-        client.query(`UPDATE usertable 
-            SET password = $1, first_name = $2, last_name = $3, email = $4, role_id = $5 
-            WHERE user_id = $6`,
-        [password, firstName, lastName, email, role, id]);
+
+        // if no password is supplied from front-end
+        if (!password) {
+            client.query(`UPDATE usertable 
+            SET first_name = $1, last_name = $2, email = $3, role_id = $4, username = $5 
+            WHERE user_id = $6`, [firstName, lastName, email, role, username, id]);
+        } else {
+            client.query(`UPDATE usertable 
+            SET password = $1, first_name = $2, last_name = $3, email = $4, role_id = $5, username = $6 
+            WHERE user_id = $7`, [password, firstName, lastName, email, role, username, id]);
+        }
 
         return res.status(200).send(`User Id: '${id}' updated successfully!`)
     } catch (err) {
@@ -139,6 +171,6 @@ const deleteUser = async (req, res) => {
 };
 
 
-export { findAll, findById, loginUser, updateUser, createUser, deleteUser };
+export { findAll, findById, findByRole, loginUser, updateUser, createUser, deleteUser };
 
 

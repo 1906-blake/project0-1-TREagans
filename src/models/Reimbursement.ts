@@ -1,14 +1,14 @@
 export default class Reimbursement {
 
     constructor(
-        reimbursementId: number,    // primary key
-        author: number,             // foreign key -> User, not null
-        amount: number,             // not null
-        dateSubmitted: number,      // not null
-        dateResolved: number,       
-        description: string,        // not null
-        resolver: string,           // foreign key -> User
-        status: string,             // foreign key -> ReimbursementStatus, not null
-        type: string                // foreign key -> ReimbursementType
+        public reimbursementId: number,    // primary key
+        public author: number,             // foreign key -> User, not null
+        public amount: number,             // not null
+        public dateSubmitted: number,      // not null
+        public dateResolved: number,       
+        public description: string,        // not null
+        public resolver: number,           // foreign key -> User
+        public status: number,             // foreign key -> ReimbursementStatus, not null
+        public type: number                // foreign key -> ReimbursementType
     ){}
 }

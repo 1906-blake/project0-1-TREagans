@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Player Reimbursement System</title>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- user styles -->
+    <link rel="stylesheet" href="../public/css/styles.css">
+</head>
+
+<body onload="reimbursements()">
+
+    <!-- 
+    ***********************************************
+    *                   NAVBAR                    *
+    ***********************************************
+    -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+        <a class="navbar-brand" href="index.html">Player Reimbursement System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto my-nav-links">
+                <li class="nav-item minor-margin-top staffStatusDisplay active" id="reimLi">
+                    <a class="nav-link" href="reimbursement.html" role="button" aria-haspopup="true"
+                        data-toggle="dropdown" id="navbarDropdown" aria-expanded="false">
+                        Reimbursements
+                    </a>
+                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">View All</a>
+                        <a class="dropdown-item" href="#">View By Author</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Update Reimbursement</a>
+                        <a class="dropdown-item" href="#">Create Reimbursement</a>
+                    </div> -->
+                </li>
+                <li class="nav-item minor-margin-top staffStatusDisplay" id="usersLi">
+                    <a class="nav-link" href="players.html" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="minor-margin-top">Players</span>
+                    </a>
+                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">View All</a>
+                        <a class="dropdown-item" href="#">View By ID</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Create User</a>
+                    </div> -->
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-secondary logged-user" href="profile.html">
+                    <i class="fas fa-user-circle"></i> <span id="profileButton">Username</span>
+                </a>
+            </form>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-warning" onclick="logout()" id="navLogout">Logout</a>
+            </form>
+        </div>
+    </nav>
+
+    <!-- 
+    ***********************************************
+    *              TITLE - DESCRIPTION            *
+    ***********************************************
+    -->
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Reimbursement History</h1>
+        <p class="lead">Welcome to the Dallas Cowboys Reimbursement System. All Reimbursements must be submitted within
+            10 days<br> of travel. Any Reimbursements sent after 10 days are subjective to <strong>denial.</strong></p>
+    </div>
+
+    <!-- 
+    ***********************************************
+    *                 SEARCH TABLE                *
+    ***********************************************
+    -->
+    <div class="table-search-container container">
+        <table class="table table-hover">
+
+            <body>
+                <tr>
+                    <td scope="col" colspan="3">
+                        <form class="form-inline staffStatus" onsubmit="reimbursementsById(event)" id="searchForm">
+                            <div class="search-author-id">
+                                <div class="form-group">
+                                    <input type="number" id="textAuthorId"
+                                        class="form-control mx-sm-3 searchUserInput"
+                                        placeholder="Search By User ID">
+                                    <button class="btn btn-primary staffStatus" id="searchBtn" type="submit">Search</button>
+                                </div><!-- /form-group -->
+                            </div><!-- /search-autho-id -->
+                        </form>
+                    </td>
+
+                    <td scope="col">
+                        <select id="statusDropdown" class="custom-select status-select staffStatus"
+                            onchange="byStatus(event)">
+                            <option value="7"><span class="staffStatus" id="searchSpan">Search By Status</span></option>
+                            <option value="1">Approved</option>
+                            <option value="2">Denied</option>
+                            <option value="3">Pending</option>
+                        </select>
+                    </td>
+                    
+                    <td scope="col">
+                        <div class="btn-spacer">
+                            <!-- create reimbursement modal trigger -->
+                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                data-target="#createModal" onclick="createNew(event)">
+                                <i class="fas fa-plus-square"></i> &nbsp;&nbsp;CREATE REIMBURSEMENT
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </body>
+        </table>
+    </div>
+
+
+<!-- 
+    ***********************************************
+    *             CREATE REIMBURSEMENT            *
+    ***********************************************
+    -->
+
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby=createModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Reimbursement </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- create reimbursement form -->
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="inputUsername">Username</label>
+                            <input type="text" class="form-control" id="inputUsername" disabled>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputAmount">Amount</label>
+                            <input type="text" class="form-control" id="inputAmount" placeholder="Dollar amount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textareaDescription">Description</label>
+                        <textarea class="form-control" id="textareaDescription"
+                            placeholder="Enter description" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputStatus">Status</label>
+                            <input type="text" class="form-control" id="createStatus" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="create-type">Type</label>
+                            <select class="custom-select" id="create-type">
+                                <option value="1" selected>Food</option>
+                                <option value="2">Lodging</option>
+                                <option value="3">Travel</option>
+                                <option value="4">Other</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="createNew(event)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+    ***********************************************
+    *            UPDATE REIMBURSEMENT             *
+    ***********************************************
+    -->
+    <!-- Edit Button on reimbursements trigger below modal -->
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Reimbursement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="updateId">ID</label>
+                                <input type="text" class="form-control" id="updateId" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="updateUsername">Username</label>
+                                <input type="text" class="form-control" id="updateUsername" disabled>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="updateAmount">Amount</label>
+                                <input type="text" class="form-control" id="updateAmount" placeholder="Dollar amount">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDescription">Description</label>
+                            <textarea class="form-control" id="updateDescription" placeholder="Enter description"
+                                required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="updateStatus">Status</label>
+                                <select class="custom-select" id="updateStatus">
+                                    <option selected>Select Status</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Denied">Denied</option>
+                                    <option value="Pending">Pending</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="updateType">Type</label>
+                                <select class="custom-select" id="updateType">
+                                    <option value="10" selected>Select Status</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Lodging">Lodging</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="update(event)" data-dismiss="modal">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 
+    ***********************************************
+    *               DISPLAY TABLE                 *
+    ***********************************************
+    -->
+    <div id="reim-table-container">
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="center-tbl-th" scope="col">Username</th>
+                        <th class="center-tbl-th" scope="col">Amount</th>
+                        <th class="center-tbl-th" scope="col">Submitted</th>
+                        <th class="center-tbl-th" scope="col">Resolved </th>
+                        <th class="center-tbl-th" scope="col">Description</th>
+                        <th class="center-tbl-th" scope="col">Resolver</th>
+                        <th class="center-tbl-th" scope="col">Status</th>
+                        <th class="center-tbl-th" scope="col">Type</th>
+                        <th class="center-tbl-th" scope="col">Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="tbl-body">
+                    <!-- <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Files -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/3fda3ef3a4.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../public/js/updatereimbursement.js"></script>
+    <script src="../public/js/createreimbursement.js"></script>
+    <script src="../public/js/reimbursementsbystatus.js"></script>
+    <script src="../public/js/reimbursementsbyid.js"></script>
+    <script src="../public/js/reimbursements.js"></script>
+</body>
+
+</html>

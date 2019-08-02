@@ -17,6 +17,11 @@ userRouter.get('/', authMiddleware, userController.findAll);
  */
 userRouter.get('/:id', authMiddleware, userController.findById);
 
+/**
+ * passing an argument to findById
+ * /users/role/:id/
+ */
+userRouter.get('/role/:id', authMiddleware, userController.findByRole);
 
 /**
  * [POST]   users/login
@@ -26,7 +31,7 @@ userRouter.post('/', authMiddleware, userController.createUser);
 
 
 /**
- * [PATCH]  /users
+ * [PATCH]  /users/:id
  */
 userRouter.patch('/:id', authMiddleware, userController.updateUser);
 

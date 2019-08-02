@@ -1,0 +1,140 @@
+#form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 5em;
+}
+
+.my-nav-links {
+    margin-right: 2em;
+}
+
+.table-container {
+    margin: 7em;
+    margin-top: 5em;
+}
+.table-search-container {
+    margin-top: 2em;
+   margin-bottom: -82px;
+}
+.table-search-container table tr {
+    background-color: #ECECEC;
+}
+.star {
+    height: 25%;
+    width: 25%;
+}
+.errorMsg {
+    color: red;
+}
+.minor-margin-top {
+    margin-top: 5px;
+}
+.modal-copyright {
+    margin: 2px auto;
+    font-size: 12px;
+}
+.searchUserInput {
+    margin-left: 0 !important;
+}
+.create-re-btn {
+    margin-right: 0;
+    /* margin-left: 100px; */
+}
+.status-select {
+    margin-right: 300px;
+    max-width: 300px;
+}
+.btn-spacer {
+    margin-left: 50px;
+}
+.icon-profile {
+    padding-bottom: 5px;
+}
+#tbl-body {
+    text-align: center;
+}
+.center-tbl-th {
+    text-align: center;
+}
+.logged-user {
+    margin-right: 18px;
+}
+.fa-edit {
+    margin-top: 5px;
+    padding-top: 12px;
+    color: orange;
+    padding-bottom: 2px;
+}
+.staffStatus {
+    visibility: hidden;
+}
+.staffStatusDisplay {
+    display: none; 
+}
+.editBtn {
+    margin-top: 8px;
+    border: none;
+    padding: 5px 10px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #fff;
+}
+#editReim {
+    margin-top: 8px;
+    padding: 9px;
+    border: none;
+    background-color: #fff;
+}
+#editReim:hover {
+    margin-top: 8px;
+    padding: 7px;
+    border: none;
+    background-color: #ECECEC;
+}
+[type=button], button {
+    /* -webkit-appearance: button; */
+    -webkit-appearance: none;
+}
+#navLogout {
+    cursor: pointer;
+}
+#footer {
+   font-size: 14px; 
+   text-align: center;
+   margin: 0 auto;
+}
+#footer-div {
+    /* display: flexbox;
+    justify-content: center; */
+    background-color: #ECECEC;
+    padding: 12px;
+}
+#passwordsErr {
+    margin: 0 auto;
+    color: red;
+}
+#profileCard {
+    margin: auto auto;
+    width: 50%;
+}
+.card {
+    margin: 20px auto;
+    border: none;
+    width: 32rem;
+}
+.card-body {
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 50px;
+}
+.topMargin {
+    margin-top: 15px;
+}
+#btnContainer {
+    width: 8em;
+}
+#editProfile {
+    margin-left: 12px;
+}

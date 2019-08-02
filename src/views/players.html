@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Player Reimbursement System</title>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- user styles -->
+    <link rel="stylesheet" href="../public/css/styles.css">
+</head>
+
+<body onload="users()">
+
+    <!-- 
+    ***********************************************
+    *                   NAVBAR                    *
+    ***********************************************
+    -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+        <a class="navbar-brand" href="index.html">Player Reimbursement System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto my-nav-links">
+                <!-- <li class="nav-item minor-margin-top">
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li> -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="reimbursement.html" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reimbursements
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">View All</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Create Reimbursement</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="players.html" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Players
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="players.html">View All</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#createUserModal" href="#">Create
+                            Player</a>
+                    </div>
+                </li> -->
+                <li class="nav-item minor-margin-top staffStatusDisplay" id="reimLi">
+                    <a class="nav-link" href="reimbursement.html" role="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        Reimbursements
+                    </a>
+                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">View By ID</a>
+                        <a class="dropdown-item" href="#">View By Author</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Update Reimbursement</a>
+                        <a class="dropdown-item" href="#">Create Reimbursement</a>
+                    </div> -->
+                </li>
+                <li class="nav-item minor-margin-top staffStatusDisplay active" id="usersLi">
+                    <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="minor-margin-top">Players</span>
+                    </a>
+                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">View All</a>
+                        <a class="dropdown-item" href="#">View By ID</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Create User</a>
+                    </div> -->
+                </li>
+                <!-- <li class="nav-item minor-margin-top dropdown">
+                    <a class="nav-link href=" #" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    </a>
+                </li> -->
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-secondary logged-user" href="profile.html">
+                    <i class="fas fa-user-circle"></i> <span id="profileButton">Username</span>
+                </a>
+            </form>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-warning" onclick="logout()" id="navLogout">Logout</a>
+            </form>
+        </div>
+    </nav>
+
+    <!-- 
+    ***********************************************
+    *              TITLE - DESCRIPTION            *
+    ***********************************************
+    -->
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Players & Staff</h1>
+        <p class="lead">Welcome to the Dallas Cowboys Reimbursement System. All Reimbursements must be submitted within
+            10 days<br> of travel. Any Reimbursements sent after 10 days are subjective to <strong>denial.</strong></p>
+    </div>
+
+    <!-- 
+    ***********************************************
+    *                 SEARCH TABLE                *
+    ***********************************************
+    -->
+    <div class="table-search-container container">
+        <table class="table table-hover">
+
+            <body>
+                <tr>
+                    <td scope="col" colspan="3">
+                        <form class="form-inline" id="userSearchForm">
+                            <div class="search-user-id">
+                                <div class="form-group">
+                                    <input type="number" id="userById" class="form-control mx-sm-3"
+                                        placeholder="Search By User ID">
+                                    <button class="btn btn-primary" id="searchUserBtn"
+                                        onclick="getUserById(event)">Search</button>
+                                </div><!-- /form-group -->
+                            </div><!-- /search-autho-id -->
+                        </form>
+                    </td>
+                    <td scope="col">
+                        <select id="userRoleDropdown" class="custom-select status-select" onchange="userByRole(event)">
+                            <option value="7"><span id="searchSpan">Search By Role</span></option>
+                            <option value="1">Admin</option>
+                            <option value="2">Finance-Manager</option>
+                            <option value="3">Employee</option>
+                        </select>
+                    </td>
+                    <td scope="col">
+                        <div class="btn-spacer">
+                            <!-- create reimbursement modal trigger -->
+                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                data-target="#createUserModal">
+                                <i class="fas fa-plus-square"></i> &nbsp;&nbsp;CREATE USER
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </body>
+        </table>
+    </div>
+
+
+    <!-- 
+    ***********************************************
+    *                 CREATE USER                 *
+    ***********************************************
+    -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby=createModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create New User </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- create reimbursement form -->
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="createUser">Username</label>
+                                <input type="text" class="form-control" id="createUser" placeholder="Username" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="createPassword">Password</label>
+                                <input type="password" class="form-control" id="createPassword"
+                                    placeholder="New Password" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="createPassword2">Confirm Password</label>
+                                <input type="password" class="form-control" id="createPassword2"
+                                    placeholder="Confirm Password">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="createFirst">First Name</label>
+                                <input type="text" class="form-control" id="createFirst" placeholder="First Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="createLast">Last Name</label>
+                                <input type="text" class="form-control" id="createLast" placeholder="Last Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label for="createEmail">Email</label>
+                                <input type="email" class="form-control" id="createEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="createRole">Role</label>
+                                <select class="custom-select" id="createRole" required>
+                                    <option value="12" selected>Select Status</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Finance-Manager</option>
+                                    <option value="3">Employee</option>
+                                </select>
+                            </div>
+                            <div id="passwordsErr"></div>
+                        </div>
+
+                        </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="newUserCreateBtn"
+                    onclick="createNewUser(event)">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+    ***********************************************
+    *                 UPDATE PLAYER               *
+    ***********************************************
+    -->
+    <!-- Edit Button on players trigger below modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="updateId">ID</label>
+                                <input type="text" class="form-control" id="updateId" disabled>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="updateUser">Username</label>
+                                <input type="text" class="form-control" id="updateUser" disabled>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="updatePassword">Password</label>
+                                <input type="password" class="form-control" id="updatePassword"
+                                    placeholder="Enter New Password">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="updateFirst">First Name</label>
+                                <input type="text" class="form-control" id="updateFirst" placeholder="First Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="updateLast">Last Name</label>
+                                <input type="text" class="form-control" id="updateLast" placeholder="Last Name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label for="updateEmail">Email</label>
+                                <input type="email" class="form-control" id="updateEmail"
+                                    placeholder="Email Address">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="updateRole">Role</label>
+                                <select class="custom-select" id="updateRole">
+                                    <option value="12" selected>Select Status</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Finance-Manager</option>
+                                    <option value="3">Employee</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateUserRecord(event)">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 
+    ***********************************************
+    *               DISPLAY TABLE                 *
+    ***********************************************
+    -->
+    <div id="reim-table-container">
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="center-tbl-th" scope="col">Username</th>
+                        <th class="center-tbl-th" scope="col">First Name</th>
+                        <th class="center-tbl-th" scope="col">Last Name</th>
+                        <th class="center-tbl-th" scope="col">Email</th>
+                        <th class="center-tbl-th" scope="col">Role</th>
+                        <th class="center-tbl-th" scope="col">Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="tbl-body">
+                    <!-- <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+       <!-- 
+    ***********************************************
+    *                    FOOTER                   *
+    ***********************************************
+    -->
+    <nav class="navbar sticky-bottom navbar-light" id="footer-div">
+        <div class="container">
+            <div id="footer"> &copy; Player Reimbursement System, 2019</div>
+        </div>
+    </nav>
+
+
+    <!-- Bootstrap JS Files -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/3fda3ef3a4.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../public/js/users.js"></script>
+    <script src="../public/js/logout.js"></script>
+    <script src="../public/js/updateuser.js"></script>
+    <script src="../public/js/usercreate.js"></script>
+    <script src="../public/js/userById.js"></script>
+    <script src="../public/js/userByRole.js"></script>
+</body>
+
+</html>
