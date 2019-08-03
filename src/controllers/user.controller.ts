@@ -104,7 +104,6 @@ const loginUser = async (req, res) => {
         convertSqlUser(results);
 
         if (results.rows[0]) {
-            console.log(results.rows[0]);
             req.session.user = convertSqlUser(results.rows[0]);
             res.json(req.session.user);
         } else {
@@ -140,7 +139,6 @@ const updateUser = async (req, res) => {
             SET password = $1, first_name = $2, last_name = $3, email = $4, role_id = $5, username = $6 
             WHERE user_id = $7`, [password, firstName, lastName, email, role, username, id]);
         }
-
         return res.status(200).send(`User Id: '${id}' updated successfully!`)
     } catch (err) {
         console.log(err);
@@ -171,6 +169,14 @@ const deleteUser = async (req, res) => {
 };
 
 
-export { findAll, findById, findByRole, loginUser, updateUser, createUser, deleteUser };
+// destroy session upon logout
+const logoutUser = (req, res) => {
+        req.session.destroy();
+        res.send('Logout Successful!');
+}
+
+
+
+export { findAll, findById, findByRole, loginUser, updateUser, createUser, deleteUser, logoutUser };
 
 

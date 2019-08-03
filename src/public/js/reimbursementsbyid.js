@@ -63,16 +63,15 @@ function addRecordRowById(record) {
 
     const reimID = document.createElement('td');
     idBtn = document.createElement('button');
-    const icon = document.createElement('i');
+    const img = document.createElement('img');
     idBtn.innerText = record.reimbursement_id;
-    icon.classList.add('fas');
-    icon.classList.add('fa-edit');
-    icon.setAttribute('type', 'button');
-    icon.setAttribute('id', 'editReim');
-    icon.setAttribute('data-toggle', 'modal');
-    icon.setAttribute('data-target', '#updateModal');
-    icon.setAttribute('onclick', `updateReim(${JSON.stringify(record)})`);
-    row.appendChild(reimID.appendChild(idBtn.appendChild(icon)));
+    img.setAttribute('type', 'button');
+    img.setAttribute('src', '../public/imgs/edit.png');
+    img.setAttribute('id', 'editReim');
+    img.setAttribute('data-toggle', 'modal');
+    img.setAttribute('data-target', '#updateModal');
+    img.setAttribute('onclick', `updateReim(${JSON.stringify(record)})`);
+    row.appendChild(reimID.appendChild(idBtn.appendChild(img)));
 }
 
 async function loadDataById(authorId) {

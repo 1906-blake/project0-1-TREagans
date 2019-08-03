@@ -13,6 +13,7 @@
 .table-container {
     margin: 7em;
     margin-top: 5em;
+    margin-bottom: 3em;
 }
 .table-search-container {
     margin-top: 2em;
@@ -82,17 +83,21 @@
     background-color: #fff;
 }
 #editReim {
-    margin-top: 8px;
-    padding: 9px;
-    border: none;
-    background-color: #fff;
+    /* margin-top: 8px; */
+    /* padding: 9px; */
+    /* border: none; */
+    /* background-color: #fff; */
+    height: 26px;
+    width: 26px;
+    margin-top: 12px;
+    margin-bottom: 5px;
 }
-#editReim:hover {
+/* #editReim:hover {
     margin-top: 8px;
     padding: 7px;
     border: none;
     background-color: #ECECEC;
-}
+} */
 [type=button], button {
     /* -webkit-appearance: button; */
     -webkit-appearance: none;
@@ -137,4 +142,15 @@
 }
 #editProfile {
     margin-left: 12px;
+}
+#profileImg {
+    height: 22px;
+    width: 22px;
+    margin-bottom: 2px;
+    margin-right: 5px;
+}
+.recordsErrorMsg {
+    color: red;
+    margin-bottom: 10em;
+    font-size: 18px;
 }

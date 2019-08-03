@@ -5,6 +5,7 @@ const currentAmount = document.querySelector('#updateAmount');
 const currentDescription = document.querySelector('#updateDescription');
 const currentStatus = document.querySelector('#updateStatus');
 const currentType = document.querySelector('#updateType');
+const updateModalBtn = document.querySelector('#updateReimBtn');
 const resolveDate = new Date();
 const userId = updateUser.userId;
 
@@ -22,25 +23,25 @@ function updateReim(record) {
     username.value = updateUser.username;
 
 
-    // players can't change status
-    if (updateUser.role === 3) {
-        currentStatus.disabled = true;
-    }
-
-
+    // disable update modal or not
     if (record.status == 'Approved' || record.status == 'Denied') {
         currentAmount.disabled = true;
         currentDescription.disabled = true;
         currentType.disabled = true;
         currentStatus.disabled = true;
+        updateModalBtn.disabled = true;
+    } else {
+        updateModalBtn.disabled = false;
     }
-    console.log(record.status);
+    
+    // disable status if not admin or finance-man
+    console.log(updateUser.role);
+
 
     currentAmount.value = record.amount;
     currentDescription.value = record.description;
     currentStatus.value = record.status;
     currentType.value = record.type;
-    
 }
 
 function update(event) {

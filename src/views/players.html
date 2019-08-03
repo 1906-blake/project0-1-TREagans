@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../public/css/styles.css">
 </head>
 
-<body onload="users()">
+<body onload="users(event)">
 
     <!-- 
     ***********************************************
@@ -23,7 +23,7 @@
     ***********************************************
     -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
-        <a class="navbar-brand" href="index.html">Player Reimbursement System</a>
+        <a class="navbar-brand" href="reimbursement.html">Player Reimbursement System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,66 +31,27 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto my-nav-links">
-                <!-- <li class="nav-item minor-margin-top">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                </li> -->
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="reimbursement.html" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item minor-margin-top staffStatusDisplay" id="reimLi">
+                    <a class="nav-link" href="reimbursement.html" role="button" id="navbarDropdown">
                         Reimbursements
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">View All</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Create Reimbursement</a>
-                    </div>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="players.html" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <!-- <li class="nav-item minor-margin-top staffStatusDisplay active" id="playerLi">
+                    <a class="nav-link" href="players.html" role="button" aria-haspopup="true"
+                        data-toggle="dropdown" id="navbarDropdown" aria-expanded="false">
                         Players
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="players.html">View All</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" data-toggle="modal" data-target="#createUserModal" href="#">Create
-                            Player</a>
-                    </div>
                 </li> -->
-                <li class="nav-item minor-margin-top staffStatusDisplay" id="reimLi">
-                    <a class="nav-link" href="reimbursement.html" role="button" aria-haspopup="true"
-                        aria-expanded="false">
-                        Reimbursements
-                    </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">View By ID</a>
-                        <a class="dropdown-item" href="#">View By Author</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Update Reimbursement</a>
-                        <a class="dropdown-item" href="#">Create Reimbursement</a>
-                    </div> -->
-                </li>
-                <li class="nav-item minor-margin-top staffStatusDisplay active" id="usersLi">
-                    <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <!-- <li class="nav-item minor-margin-top staffStatusDisplay" id="usersLi">
+                    <a class="nav-link" href="players.html" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="minor-margin-top">Players</span>
-                    </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">View All</a>
-                        <a class="dropdown-item" href="#">View By ID</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Create User</a>
-                    </div> -->
-                </li>
-                <!-- <li class="nav-item minor-margin-top dropdown">
-                    <a class="nav-link href=" #" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
                     </a>
                 </li> -->
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a class="btn btn-secondary logged-user" href="profile.html">
-                    <i class="fas fa-user-circle"></i> <span id="profileButton">Username</span>
+                    <img id="profileImg" src="../public/imgs/user-pro-wht.png"> <span id="profileButton"></span>
                 </a>
             </form>
             <form class="form-inline my-2 my-lg-0">
@@ -379,7 +340,7 @@
 
     <!-- Custom JS -->
     <script src="../public/js/users.js"></script>
-    <script src="../public/js/logout.js"></script>
+    <script src="../public/js/reimbursements.js"></script>
     <script src="../public/js/updateuser.js"></script>
     <script src="../public/js/usercreate.js"></script>
     <script src="../public/js/userById.js"></script>

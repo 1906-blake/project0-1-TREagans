@@ -1,6 +1,33 @@
-const tableBody = document.querySelector('#tbl-body');
+getUsername = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).username;
+getRole = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role;
 
-function users() {
+document.querySelector('#profileButton').innerText = getUsername;
+// statusSearch = document.querySelector('.staffStatus');
+
+
+function users(event) {
+    event.preventDefault();
+
+    if (getRole == 1 || getRole == 2) {
+        const reimLi = document.querySelector('#reimLi');
+        reimLi.classList.remove('staffStatusDisplay');
+
+        // const playerLi = document.querySelector('#playerLi');
+        // playerLi.classList.remove('staffStatusDisplay');
+
+        // const searchForm = document.querySelector('#searchForm');
+        // searchForm.classList.remove('staffStatus');
+
+        // const searchBtn = document.querySelector('#searchBtn');
+        // searchBtn.classList.remove('staffStatus');
+
+        // const statusDropdown = document.querySelector('#statusDropdown');
+        // statusDropdown.classList.remove('staffStatus');
+
+        // statusSearch.style.visibility = "visible";
+        // staffStatusDisplay.style.display = "inline";
+    }
+    
     loadUserData();
 }
 

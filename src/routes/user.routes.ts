@@ -1,6 +1,6 @@
 import express from 'express';
 import * as userController from '../controllers/user.controller';
-import { authMiddleware } from '../middleware/auth.middleware';
+import { authMiddleware, reimburseMiddleware } from '../middleware/auth.middleware';
 
 
 export const userRouter = express.Router();
@@ -28,7 +28,7 @@ userRouter.get('/role/:id', authMiddleware, userController.findByRole);
  */
 userRouter.post('/login', userController.loginUser);
 userRouter.post('/', authMiddleware, userController.createUser);
-
+userRouter.post('/logout', reimburseMiddleware, userController.logoutUser);
 
 /**
  * [PATCH]  /users/:id

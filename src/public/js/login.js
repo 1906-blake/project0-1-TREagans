@@ -1,4 +1,5 @@
 let getUsername;
+
 async function login(e) {
     e.preventDefault();
 
@@ -27,8 +28,7 @@ async function login(e) {
         const user = await res.json();
         localStorage.setItem('user', JSON.stringify(user));
         getUsername = user.username;
-        console.log(username);
-        
+
         window.location = './reimbursement.html'; // redirect
     } catch (err) {
         console.log(err);

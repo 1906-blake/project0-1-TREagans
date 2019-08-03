@@ -69,6 +69,19 @@ function addRecordRowByStatus(record) {
     const typeData = document.createElement('td');
     typeData.innerText = record.type;
     row.appendChild(typeData);
+
+
+    const reimID = document.createElement('td');
+    idBtn = document.createElement('button');
+    const img = document.createElement('img');
+    idBtn.innerText = record.reimbursement_id;
+    img.setAttribute('type', 'button');
+    img.setAttribute('src', '../public/imgs/edit.png');
+    img.setAttribute('id', 'editReim');
+    img.setAttribute('data-toggle', 'modal');
+    img.setAttribute('data-target', '#updateModal');
+    img.setAttribute('onclick', `updateReim(${JSON.stringify(record)})`);
+    row.appendChild(reimID.appendChild(idBtn.appendChild(img)));
 }
 
 async function loadDataByStatus(statusId) {

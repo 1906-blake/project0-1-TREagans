@@ -1,4 +1,6 @@
 const editGetUser = JSON.parse(localStorage.getItem('user'));
+getUsername = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).username;
+getRole = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role;
 
 // get all form fields
 let editId = document.querySelector('#editId');
@@ -14,7 +16,8 @@ document.querySelector('#profileButton').innerText = editGetUser.username;
 
 
 
-function editUserProfile() {
+function editUserProfile(event) {
+    event.preventDefault();
 
     editId.value = editGetUser.userId;
     editUser.value = editGetUser.username;
@@ -22,6 +25,8 @@ function editUserProfile() {
     editLast.value = editGetUser.lastName;
     editEmail.value = editGetUser.email;
     editRole.value = editGetUser.role;
+
+
 }
 
 
@@ -51,6 +56,14 @@ function disableProfile() {
     // enable save button, change color
     saveBtn.disabled = true;
     editBtn.disabled = false;
+
+     if (getRole == "1" || getRole == "2") {
+         const reimLi = document.querySelector('#reimLi');
+         reimLi.classList.remove('staffStatusDisplay');
+
+         const usersLi = document.querySelector('#playerLi');
+         usersLi.classList.remove('staffStatusDisplay');
+    }
 }
 
 

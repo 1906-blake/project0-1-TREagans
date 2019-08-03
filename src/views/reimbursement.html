@@ -31,35 +31,31 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto my-nav-links">
-                <li class="nav-item minor-margin-top staffStatusDisplay active" id="reimLi">
+                <!-- <li class="nav-item minor-margin-top staffStatusDisplay active" id="reimLi">
                     <a class="nav-link" href="reimbursement.html" role="button" aria-haspopup="true"
                         data-toggle="dropdown" id="navbarDropdown" aria-expanded="false">
                         Reimbursements
                     </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">View All</a>
-                        <a class="dropdown-item" href="#">View By Author</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Update Reimbursement</a>
-                        <a class="dropdown-item" href="#">Create Reimbursement</a>
-                    </div> -->
-                </li>
-                <li class="nav-item minor-margin-top staffStatusDisplay" id="usersLi">
-                    <a class="nav-link" href="players.html" role="button"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span class="minor-margin-top">Players</span>
+                </li> -->
+                <!-- <li class="nav-item dropdown staffStatusDisplay" id="reimLi">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reimbursements
                     </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">View All</a>
-                        <a class="dropdown-item" href="#">View By ID</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Create User</a>
-                    </div> -->
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="reim">View All</a>
+                    </div>
+                </li> -->
+
+                <li class="nav-item dropdown staffStatusDisplay" id="playerLi">
+                    <a class="nav-link" href="players.html" role="button">
+                        Players
+                    </a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a class="btn btn-secondary logged-user" href="profile.html">
-                    <i class="fas fa-user-circle"></i> <span id="profileButton">Username</span>
+                    <img id="profileImg" src="../public/imgs/user-pro-wht.png"> <span id="profileButton"></span>
                 </a>
             </form>
             <form class="form-inline my-2 my-lg-0">
@@ -259,7 +255,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="update(event)" data-dismiss="modal">Update</button>
+                    <button type="button" id="updateReimBtn" class="btn btn-primary" onclick="update(event)" data-dismiss="modal">Update</button>
                 </div>
             </div>
         </div>
@@ -302,6 +298,7 @@
                 </tbody>
             </table>
         </div>
+        <p class="recordsErrorMsg text-center"></p>
     </div>
 
     <!-- Bootstrap JS Files -->
@@ -315,10 +312,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/3fda3ef3a4.js"></script>
-
     <!-- Custom JS -->
+    <script src="../public/js/login.js"></script>
+    <script src="../public/js/users.js"></script>
     <script src="../public/js/updatereimbursement.js"></script>
     <script src="../public/js/createreimbursement.js"></script>
     <script src="../public/js/reimbursementsbystatus.js"></script>

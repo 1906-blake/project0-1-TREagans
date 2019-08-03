@@ -10,7 +10,7 @@ const getAll = async (req, res) => {
 
     try {
         client = await dbConnection.connect();
-        const results = await client.query(`select * from reimbursements`);
+        const results = await client.query(`select * from reimbursements ORDER BY date_submitted`);
 
         if (results.rows) {
             return res.status(200).json(results.rows);
@@ -38,7 +38,8 @@ const getStatus = async (req, res) => {
         left join usertable u2 on resolver = u2.user_id
         left join reimbursementstatus rs on reimbursement.status = rs.status_id
         left join reimbursementtype rt on reimbursement.reimbursetype = rt.type_id
-        where reimbursement.status = $1`;
+        where reimbursement.status = $1
+        ORDER BY date_submitted`;
 
         const results = await client.query(queryString, [id]);
 
@@ -76,7 +77,8 @@ const getAuthor = async (req, res) => {
             LEFT JOIN reimbursementstatus ON reimbursement.status = status_id
             LEFT JOIN reimbursementtype ON reimbursement.reimburseType = type_id
             LEFT JOIN usertable u2 ON resolver = u2.user_id
-            WHERE author = $1`;
+            WHERE author = $1
+            ORDER BY date_submitted`;
         const results = await client.query(queryString, [+id]);
         if (results.rows) {
             return res.status(200).json(results.rows);
@@ -140,7 +142,8 @@ const getReimbursementId = async (req, res) => {
 
     try {
         client = await dbConnection.connect();
-        const queryString = `SELECT * FROM reimbursement WHERE reimbursement_id = $1;`
+        const queryString = `SELECT * FROM reimbursement WHERE reimbursement_id = $1
+        ORDER BY date_submitted;`
         const results = await client.query(queryString, [+id]);
 
         return results.rows[0];

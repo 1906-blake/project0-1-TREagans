@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../public/css/styles.css">
 </head>
 
-<body onload="editUserProfile()">
+<body onload="editUserProfile(event)">
 
     <!-- 
     ***********************************************
@@ -32,22 +32,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto my-nav-links">
                 <li class="nav-item minor-margin-top">
-                    <a class="nav-link" href="reimbursement.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="reimbursement.html">Reimbursements <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item minor-margin-top staffStatusDisplay" id="reimLi">
+                <!-- <li class="nav-item minor-margin-top staffStatusDisplay" id="reimLi">
                     <a class="nav-link" href="reimbursement.html" role="button" aria-haspopup="true"
                         aria-expanded="false">
                         Reimbursements
                     </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">View By ID</a>
                         <a class="dropdown-item" href="#">View By Author</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Update Reimbursement</a>
                         <a class="dropdown-item" href="#">Create Reimbursement</a>
-                    </div> -->
-                </li>
-                <li class="nav-item minor-margin-top staffStatusDisplay" id="usersLi">
+                    </div>
+                </li> -->
+                <li class="nav-item minor-margin-top staffStatusDisplay" id="playerLi">
                     <a class="nav-link" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="minor-margin-top">Players</span>
                     </a>
@@ -66,7 +66,7 @@
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a class="btn btn-secondary logged-user" href="profile.html">
-                    <i class="fas fa-user-circle"></i> <span id="profileButton">Username</span>
+                    <img id="profileImg" src="../public/imgs/user-pro-wht.png"> <span id="profileButton"></span>
                 </a>
             </form>
             <form class="form-inline my-2 my-lg-0">
@@ -177,13 +177,10 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/3fda3ef3a4.js"></script>
-
     <!-- Custom JS -->
     <script src="../public/js/userprofile.js"></script>
     <script src="../public/js/users.js"></script>
-    <script src="../public/js/logout.js"></script>
+    <script src="../public/js/reimbursements.js"></script>
 </body>
 
 </html>

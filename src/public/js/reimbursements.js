@@ -1,18 +1,22 @@
 const tableBody = document.querySelector('#tbl-body');
-const getUsername = JSON.parse(localStorage.getItem('user')).username;
-const getRole = JSON.parse(localStorage.getItem('user')).role;
-document.querySelector('#profileButton').innerText = getUsername;
+getUsername = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).username;
+const getRole = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role;
 
+document.querySelector('#profileButton').innerText = getUsername;
+const statusSearch = document.querySelector('.staffStatus');
+
+
+if (!getUsername) {
+    window.location = 'index.html';
+}
 
 function reimbursements() {
-
-    const statusSearch = document.querySelector('.staffStatus');
     
     if (getRole == "1" || getRole == "2") {
-        const reimLi = document.querySelector('#reimLi');
-        reimLi.classList.remove('staffStatusDisplay');
+        // const reimLi = document.querySelector('#reimLi');
+        // reimLi.classList.remove('staffStatusDisplay');
         
-        const usersLi = document.querySelector('#usersLi');
+        const usersLi = document.querySelector('#playerLi');
         usersLi.classList.remove('staffStatusDisplay');
 
         const searchForm = document.querySelector('#searchForm');
@@ -33,7 +37,7 @@ function reimbursements() {
 
 
 function addRecordRow(record) {
-    if (!record) {
+    if (record <= 0) {
         return;
     }
 
@@ -94,16 +98,15 @@ function addRecordRow(record) {
 
     const reimID = document.createElement('td');
     idBtn = document.createElement('button');
-    const icon = document.createElement('i');
+    const img = document.createElement('img');
     idBtn.innerText = record.reimbursement_id;
-    icon.classList.add('fas');
-    icon.classList.add('fa-edit');
-    icon.setAttribute('type', 'button');
-    icon.setAttribute('id', 'editReim');
-    icon.setAttribute('data-toggle', 'modal');
-    icon.setAttribute('data-target', '#updateModal');
-    icon.setAttribute('onclick', `updateReim(${JSON.stringify(record)})`);
-    row.appendChild(reimID.appendChild(idBtn.appendChild(icon)));
+    img.setAttribute('type', 'button');
+    img.setAttribute('src', '../public/imgs/edit.png');
+    img.setAttribute('id', 'editReim');
+    img.setAttribute('data-toggle', 'modal');
+    img.setAttribute('data-target', '#updateModal');
+    img.setAttribute('onclick', `updateReim(${JSON.stringify(record)})`);
+    row.appendChild(reimID.appendChild(idBtn.appendChild(img)));
 }
 
 async function loadData() {
@@ -113,11 +116,18 @@ async function loadData() {
     });
 
     const records = await resp.json();
-    records.forEach(addRecordRow);
+
+    if (records <= 0) {
+        const recordsErr = document.querySelector('.recordsErrorMsg');
+        recordsErr.innerText = 'You currently have no reimbursements to display.';
+        return;
+    } else {
+        records.forEach(addRecordRow);
+    }
 };
 
 
-function logout() {
+async function logout() {
     localStorage.clear();
 
     window.location = 'login.html';
