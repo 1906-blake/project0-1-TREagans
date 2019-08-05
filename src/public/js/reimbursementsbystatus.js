@@ -90,5 +90,15 @@ async function loadDataByStatus(statusId) {
     });
 
     const records = await res.json();
-    records.forEach(addRecordRowByStatus);
+
+    const recordsErr = document.querySelector('.recordsErrorMsg');
+    if (records <= 0) {
+      recordsErr.innerText =
+        'You currently have no reimbursements to display.';
+      return;
+    } else {
+      recordsErr.innerText = '';
+      records.forEach(addRecordRowByStatus);
+    }
+    
 };

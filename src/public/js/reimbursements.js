@@ -117,11 +117,12 @@ async function loadData() {
 
     const records = await resp.json();
 
+    const recordsErr = document.querySelector('.recordsErrorMsg');
     if (records <= 0) {
-        const recordsErr = document.querySelector('.recordsErrorMsg');
         recordsErr.innerText = 'You currently have no reimbursements to display.';
         return;
     } else {
+        recordsErr.innerText = '';
         records.forEach(addRecordRow);
     }
 };
@@ -130,7 +131,7 @@ async function loadData() {
 async function logout() {
     localStorage.clear();
 
-    window.location = 'login.html';
+    window.location = 'index.html';
 }
 
 

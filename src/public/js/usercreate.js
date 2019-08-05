@@ -45,5 +45,6 @@ async function sendNewUserData(user) {
         body: JSON.stringify(user)
     });
 
+    alert('Player account created!');
     window.location = './players.html'; // redirect
 }

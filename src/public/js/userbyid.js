@@ -32,7 +32,13 @@ function addUserRowById(record) {
     row.appendChild(emailData);
 
     const roleData = document.createElement('td');
-    roleData.innerText = record.role;
+    if (record.role == 1) {
+      roleData.innerText = 'Admin';
+    } else if (record.role == 2) {
+      roleData.innerText = 'Finance-Manager';
+    } else if (record.role == 3) {
+      roleData.innerText = 'Employee';
+    }
     row.appendChild(roleData);
 
     const userId = document.createElement('td');

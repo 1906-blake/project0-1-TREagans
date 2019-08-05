@@ -2,6 +2,12 @@ const editGetUser = JSON.parse(localStorage.getItem('user'));
 getUsername = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).username;
 getRole = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role;
 
+
+if (!getUsername) {
+  window.location = 'index.html';
+}
+
+
 // get all form fields
 let editId = document.querySelector('#editId');
 let editUser = document.querySelector('#editUser');
@@ -136,7 +142,7 @@ async function saveProfileData(user) {
         disableProfile();
         alert('Profile updated successfully!');
     }
-
+    
     window.location = './profile.html';
     
     

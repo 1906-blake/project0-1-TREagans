@@ -4,6 +4,9 @@ getRole = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'
 document.querySelector('#profileButton').innerText = getUsername;
 // statusSearch = document.querySelector('.staffStatus');
 
+if (!getUsername) {
+  window.location = 'index.html';
+}
 
 function users(event) {
     event.preventDefault();
@@ -58,7 +61,13 @@ function addUserRows(record) {
     row.appendChild(emailData);
 
     const roleData = document.createElement('td');
-    roleData.innerText = record.role;
+    if (record.role == 1) {
+      roleData.innerText = 'Admin';
+    } else if (record.role == 2) {
+      roleData.innerText = 'Finance-Manager';
+    } else if (record.role == 3) {
+      roleData.innerText = 'Employee';
+    }
     row.appendChild(roleData);
 
     const userId = document.createElement('td');

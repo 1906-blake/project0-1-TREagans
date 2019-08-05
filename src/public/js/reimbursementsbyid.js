@@ -80,5 +80,15 @@ async function loadDataById(authorId) {
     });
 
     const records = await res.json();
-    records.forEach(addRecordRowById);
+
+    const recordsErr = document.querySelector('.recordsErrorMsg');
+    if (records <= 0) {
+      recordsErr.innerText =
+        `There is currently no user with ID: ${authorId}`;
+      return;
+    } else {
+        recordsErr.innerText = '';
+      records.forEach(addRecordRowById);
+    }
+    
 };

@@ -51,5 +51,6 @@ async function sendUpdatedData(user) {
         body: JSON.stringify(user)
     });
 
+    alert('Player updated successfully!');
     window.location = './players.html'; // redirect
 }
